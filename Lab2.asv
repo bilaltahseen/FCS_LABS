@@ -1,0 +1,64 @@
+% Exercise: 1
+
+% v0= 0; %(initial speed)
+% [t,v]=ode45('cruise_speed', [0 200],v0);
+% plot(t,v); grid on;
+% title('cruise speed time response to a constant traction force Fa(t) ')
+
+% Exercise: 2
+
+clear;
+close all;
+clc;
+X0=[0;0];% (Initial speed and position)
+figure('Renderer', 'painters', 'Position', [10 10 1024 768])
+subplot(2,2,1)
+
+for n=1:4 
+    for change=0:10:50
+        hold on;
+        [t,X]=ode45(@(t,y)mass_spring(t,y,change,100,100,100),[0 200],X0);
+         subplot(2,2,1);
+         plot(t,X(:,1),'DisplayName',[num2str(change),' %increase in Mass' ]);
+         
+    end
+    hold off;
+    legend('show');
+    for change=0:10:50
+        hold on;
+        [t,X]=ode45(@(t,y)mass_spring(t,y,100,change,100,100),[0 200],X0);
+        subplot(2,2,2); 
+        plot(t,X(:,1),'DisplayName',[num2str(change),' %increase in Friction' ]);
+    end
+    hold off;
+    legend('show');
+    for change=0:10:50
+        hold on;
+        [t,X]=ode45(@(t,y)mass_spring(t,y,100,100,change,100),[0 200],X0);
+        subplot(2,2,3); 
+        plot(t,X(:,1),'DisplayName',[num2str(change),' %increase in Force' ]);
+    end
+    hold off;
+    legend('show');
+    for change=0:10:50
+        hold on;
+        [t,X]=ode45(@(t,y)mass_spring(t,y,100,100,100,change),[0 200],X0);
+        subplot(2,2,4); 
+        plot(t,X(:,1),'DisplayName',[num2str(change),' %increase in Spring' ]);
+    end
+   hold off;
+   legend('show');
+end
+ 
+
+
+grid;
+% figure;
+% plot(t,X(:,2),'r');
+% xlabel('Time(t)');
+% ylabel('Speed');
+% title('Mass spring system');
+% legend('Speed ');
+% grid;
+
+
